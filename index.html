@@ -439,8 +439,8 @@ header{position:relative;isolation:isolate}header:after{content:"";position:abso
     function render(){
       const entries = Object.entries(totalsIndex).sort((a,b)=>b[1]-a[1]);
       document.getElementById('total').textContent = channels.length;
-      document.getElementById('largest').textContent = entries[0][0];
-      document.getElementById('largest-note').textContent = entries[0][1]+' sinais na categoria com maior presença.';
+      document.getElementById('largest').textContent = entries.length ? entries[0][0] : 'Aguardando';
+      document.getElementById('largest-note').textContent = entries.length ? entries[0][1]+' sinais na categoria com maior presença.' : 'Carregando catálogo do Realtime Database.';
       document.getElementById('categories').innerHTML = [['Todos',channels.length],...entries].map(([cat,n])=>'<button class="cat '+(active===cat?'active':'')+'" data-category="'+escapeHtml(cat)+'"><span>'+escapeHtml(cat)+'</span><small>'+n+'</small></button>').join('');
       document.getElementById('favorites').textContent = (onlyFavorites?'♥':'♡')+' Favoritos ('+favorites.length+')';
       const base = active === 'Todos' ? channels : (byCategory[active] || []);
@@ -490,7 +490,7 @@ header{position:relative;isolation:isolate}header:after{content:"";position:abso
       const pool=channels.slice();
       const pick=[];
       for(let i=0;i<160;i++){pick.push(pool[Math.floor(Math.random()*pool.length)])}
-      bg.innerHTML=pick.map(c=>'<div class="gc"><img src="'+escapeHtml(channelLogo(c))+'" alt="" loading="lazy" decoding="async"><b>'+escapeHtml(c.name)+'</b></div>').join('');
+      bg.innerHTML=pool.length ? pick.map(c=>'<div class="gc"><img src="'+escapeHtml(channelLogo(c))+'" alt="" loading="lazy" decoding="async"><b>'+escapeHtml(c.name)+'</b></div>').join('') : '';
 
       /* bloqueio por códigos autorizados */
       const ACCESS_CODES=['IIZAAV1TK4PKAB6D8N3L','5I1GUSJRHYD91P5PUSII','OXZZ619O0JF52RY5X1IM','I5FJE9BZQ77ZL1Y4521C','Y88ZBZNJI30IX0SLLDXT','IZV0VM2QXDB3B43JB4LJ','NNYOG6A43VJ8ZX5WGE7N','CZP56RN513M72HF0707J','JLNRNRPGWY9KA3XII867','ULKWT7NQG55SRREHUGSQ','HQ6ALUWUAV8IMCSEBKDJ','C4RDWQV64TBH87YQK5NI','TKPCI2Y6WJD3FIF5ZZJC','3K209UKLAAZV7J6DZNYD','GPR06UYDJRJDUWV2PD3O','XP3T0IJKTA7DZL1ZAGQE','S71RINZYOPA0Q1ZYAMIO','2JJ5XMBBMJJTZ7QVCDQH','K0CINO6U06RUD7F86X8S','Q3C4QVJCOPL4R8WDCGNR','BH0MG7MSQFBK8CSD282P','NAR4E80B0AHSCW0LJY7C','JWT5BFUB8R3A6HHQZHRZ','VY2BNPSP4OA8OGGBQ2SD','ZRSEXEDSLLE2M032BMVE','7XQ7K04G2QIJCII4I2I1','9LTBZWD4BOPYW7YJP7UJ','JDBD2S7T22S5EK41NNYO','ACDK6UDU37EWNZW26AMA','UD6LV1D0XN2ZY8MEGIGD','7X2C9XYZJN71KGUHPPNG','Z6HEG0CXI2RZ9WG8UPJQ','55FE4J64ZSFTJB741T0P','RJFFZ10EXH4SVE7VPNXD','6S636WC2SAW9ACYYGEA5','XZ2QI130LDPJCDCGXJKA','0ULP2Z9C5ZYMN8I8KYAK','KK2FYIB4ZW04KGK87YAX','NMIDJHTJJCFWLCYQGW8W','82APZQXTQK83X8VCJ72B','W7NZ15N30EYIIXEXEHO1','1F1XAQOUI7R99W12CF4C','VE3O7X7VR6YTACH62QXL','YTZCSOMK0NHIAUUWCLQ8','5AHPJWMXZP5NSTEL7HED','PXV4N4RXYX4N90TINRNF','IPI9K6BE6SO7IWKVFSQW','KMID1S706OZBSY83NP9C','SKOBTC7J98R3LWC0C2BI','CEO6RHINNC03570VLUB8','ZXBM8F0OLX6PJWIPQ9K9','M9IQRVKJIWRNE78QEBM8','WRQUPL7FOCIL3TN6AEV5','TZDQ73WOLXNA7X0VMQ5A','0EPH673L1XRKCZ9I34PR','S2ZMBFFAGR79OBXFP8OO','TL2J7KM79Y6I35GT43XB','D6RJNUD1X7RHVVJV9XGX','267SENJ01T371RFKJZM6','IF8TFSQVWM873E5IEATW','HJEDYP46Y9GWYLT7ZSJG','G7TREPP29ZP9ZGBHXJFT','Y1MH3EFACPU2TY1Y4F46','B1RCE7QKDBR8I646OSAJ','KPFWS9GECB1PHCPUMS0J','FJDP0QELE2MSPRQGSB94','LGBT2UYVITFIH45DPPDJ','FGOYGA46WEZW0ZKA8W5I','VVXIVHXW45OTD7AJIZGF','T1ESJ3NMNVJ45MCM2M80','GU7628GSQQJ350JE77M5','B1H0UQIK9MTTEO9NPLY7','3TCSSTUMG7S2Z9QMZYEA','4UO7ZINVTFDZVRH5TNEV','R595Z419BQSQ3RMX3043','SVXK9HM6MYCBSMNWD17S','68YVIUP00752EY4S0GOZ','QAB9MX4I7Y2K07LEKGQO','9GD2ZB9DV91G7CNWI9AF','OJOTH4ACLNHX2ZQ39SIN','V2G58VPXM2ENSX7E8N8U','FZ4U9JY5PMT7JGFOHFFC','PSY21WYIYQOUL4NPWDI2','8IQ2FBBU0VCU8XZQVQDH','5QXCCMFYVCC5GVDYW3B8','69SUWH3SOPH8EOCAKIYX','7IYYL3R4DJWAEH3EHWPX','V7L9FN86851VYN0ZEB6D','IJJTN9Z825YXZAZN6IBJ','ZY459QU2F0QRV950BXG6','24FUTFEPE3L845EBSRSZ','DBUCYEYRZ9QVZOF9Q4AX','N2L6WMWJ941IQ7ALSBIP','6X0CPW182Y48H9L590SL','J9P7KP7578VEEZX45X6X','1EKRAU80FNQJ87F5OVZK','URHWXANSRAS6TNTJ3YVF','K2MIA8TT3DUOS02YPW93','TEJJCQLB7556WOHEGL27','H00R0ZOGY5GXN0NY8POV'];
@@ -508,13 +508,13 @@ header{position:relative;isolation:isolate}header:after{content:"";position:abso
       function showGate(){$('noticeScreen').hidden=true;$('intro2').hidden=true;$('intro1').hidden=true;$('kawe-gate').hidden=false;setTimeout(()=>$('gateCode').focus(),120)}
       function showNotice(){$('intro2').hidden=true;$('noticeScreen').hidden=false}
       function step2(){$('intro1').hidden=true;$('intro2').hidden=false;t2=setTimeout(afterIntros,2600)}
-      function afterIntros(){ if(localStorage.getItem(KEY_NOTICE)==='1'){showGate()} else {showNotice()} }
+      function afterIntros(){ if(localStorage.getItem(KEY_NOTICE)==='1'){openApp('Visitante', true)} else {showNotice()} }
       const s=session();
       let t1=null,t2=null;
       if(s&&s.code){ t1=setTimeout(()=>{$('intro1').hidden=true;$('intro2').hidden=false;t2=setTimeout(()=>openApp('Código autorizado'),2400)},2500); }
       else { t1=setTimeout(step2,2500); }
       document.querySelectorAll('[data-skip]').forEach(b=>b.onclick=()=>{clearTimeout(t1);clearTimeout(t2);if(s&&s.code)openApp('Código autorizado');else afterIntros()});
-      $('noticeOk').onclick=()=>{localStorage.setItem(KEY_NOTICE,'1');showGate()};
+      $('noticeOk').onclick=()=>{localStorage.setItem(KEY_NOTICE,'1');openApp('Visitante', true);kaweToast('Catálogo aberto')};
       function setGateMessage(text,ok=false){$('gateMsg').textContent=text;$('gateMsg').className='gate-msg'+(ok?' ok':'')}
       $('gateForm').onsubmit=e=>{
         e.preventDefault();
@@ -529,6 +529,8 @@ header{position:relative;isolation:isolate}header:after{content:"";position:abso
         setTimeout(()=>{openApp('Código autorizado');kaweToast('Acesso autorizado')},420);
       };
       $('logout').onclick=()=>{localStorage.removeItem(KEY_SESSION);location.reload()};
+      // Fallback de segurança: a intro nunca pode bloquear a página indefinidamente.
+      setTimeout(()=>{ if(!document.body.classList.contains('app-ready')) openApp('Visitante', true); }, 9000);
 
       /* funções gerais extras */
       $('randomBtn').onclick=()=>{const c=list.length?list[Math.floor(Math.random()*list.length)]:channels[Math.floor(Math.random()*channels.length)];if(c){rememberChannel(c);window.kawePlayChannel(c);kaweToast('Abrindo '+c.name)}};
